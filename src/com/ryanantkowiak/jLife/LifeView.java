@@ -27,7 +27,7 @@ public class LifeView extends JComponent
 		m_height = height;
 		m_model = model;
 
-		Dimension size = new Dimension(CELL_SIZE * m_width, CELL_SIZE * m_height);
+		Dimension size = new Dimension(CELL_SIZE * (m_width - 1), CELL_SIZE * (m_height - 1));
 		
 		setSize(size);
 		setPreferredSize(size);

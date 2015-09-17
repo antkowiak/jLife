@@ -1,40 +1,62 @@
 /**
+ * Program entry point for game of Life.
  * 
+ * @author Ryan Antkowiak (antkowiak@gmail.com)
  */
 package com.ryanantkowiak.jLife;
 
+import javax.swing.JFrame;
 
 /**
  * @author Ryan Antkowiak (antkowiak@gmail.com)
  *
+ * Main class for the java implementation of Life, with wrap-around logic.
  */
 public class Main
 {
+	private static final int LIFE_WIDTH = 100;
+	private static final int LIFE_HEIGHT = 50;
+	
+	private static final int GENERATION_DELAY = 100;
+	private static final int NUM_GENERATIONS = 10000;
+	
 	public static void main(String [] args)
 	{
-		LifeModel lm = new LifeModel(20, 20);
+		// Create the model and view
+		LifeModel lifeModel = new LifeModel(LIFE_WIDTH, LIFE_HEIGHT);
+		LifeView lifeView = new LifeView(LIFE_WIDTH, LIFE_HEIGHT, lifeModel);
 		
-		lm.zeroGrid();
-		
-		// Set the state for a glider
-		lm.setState(5, 5, true);
-		lm.setState(5, 6, true);
-		lm.setState(5, 7, true);
-		lm.setState(4, 7, true);
-		lm.setState(3, 6, true);
-		
-		for (int i = 0 ; i < 1000 ; ++i)
+		// Create the window for display
+		JFrame frame = new JFrame("jLife - by Ryan Antkowiak (antkowiak@gmail.com)");
+		frame.getContentPane().add(lifeView);
+		frame.getContentPane().setSize(lifeView.getSize());
+		frame.pack();
+		frame.setResizable(false);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+
+		// Play the game of Life!
+		for (int i = 0 ; i < NUM_GENERATIONS ; ++i)
 		{
-			System.out.println(lm.toString());
-			System.out.println();
-			lm.advanceGeneration();
-			try
-			{
-				Thread.sleep(100);
-			}
-			catch (Exception e)
-			{
-			}
+			lifeView.updateLifeDisplay();
+		
+			delay(GENERATION_DELAY);
+			
+			lifeModel.advanceGeneration();
+		}
+	}
+	
+	/*
+	 * Attempt to delay the thread a number of milliseconds
+	 */
+	private static void delay(int ms)
+	{
+		try
+		{
+			Thread.sleep(ms);
+		}
+		catch (Exception e)
+		{
 		}
 	}
 }

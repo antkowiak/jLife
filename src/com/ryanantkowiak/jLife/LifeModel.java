@@ -1,3 +1,8 @@
+/**
+ * Data model class for the game of Life.
+ * 
+ * @author Ryan Antkowiak (antkowiak@gmail.com)
+ */
 package com.ryanantkowiak.jLife;
 
 public class LifeModel

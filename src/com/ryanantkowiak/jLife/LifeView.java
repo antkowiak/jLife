@@ -11,6 +11,9 @@ import java.awt.Graphics;
 
 import javax.swing.JComponent;
 
+/*
+ * @brief	LifeView class
+ */
 public class LifeView extends JComponent
 {
 	private static final int CELL_SIZE = 10;
@@ -21,10 +24,14 @@ public class LifeView extends JComponent
 	private final int m_height;
 	private final LifeModel m_model;
 	
-	public LifeView(int width, int height, LifeModel model)
+	/*
+	 * @brief	Constructor
+	 * @param	model - the LifeView model to use for the simulation
+	 */
+	public LifeView(LifeModel model)
 	{
-		m_width = width;
-		m_height = height;
+		m_width = model.getWidth();
+		m_height = model.getHeight();
 		m_model = model;
 
 		Dimension size = new Dimension(CELL_SIZE * (m_width - 1), CELL_SIZE * (m_height - 1));
@@ -34,11 +41,21 @@ public class LifeView extends JComponent
 		setVisible(true);
 	}
 	
+	/*
+	 * @brief	Force the life display to be updated (repainted)
+	 */
 	public void updateLifeDisplay()
 	{
 		repaint();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 * 
+	 * @brief	Overridden function to paint the display
+	 * @param	g - the graphics object with which to paint the display
+	 */
 	@Override
 	public void paintComponent(Graphics g)
 	{

@@ -20,11 +20,15 @@ public class Main
 	private static final int GENERATION_DELAY = 100;
 	private static final int NUM_GENERATIONS = 10000;
 	
+	/*
+	 * @brief	Main entry point to the program
+	 * @param	args - unused
+	 */
 	public static void main(String [] args)
 	{
 		// Create the model and view
 		LifeModel lifeModel = new LifeModel(LIFE_WIDTH, LIFE_HEIGHT);
-		LifeView lifeView = new LifeView(LIFE_WIDTH, LIFE_HEIGHT, lifeModel);
+		LifeView lifeView = new LifeView(lifeModel);
 		
 		// Create the window for display
 		JFrame frame = new JFrame("jLife - by Ryan Antkowiak (antkowiak@gmail.com)");
@@ -47,7 +51,8 @@ public class Main
 	}
 	
 	/*
-	 * Attempt to delay the thread a number of milliseconds
+	 * @brief	Attempt to delay the thread a number of milliseconds
+	 * @param	ms - the time in milliseconds to delay
 	 */
 	private static void delay(int ms)
 	{

@@ -5,15 +5,29 @@
  */
 package com.ryanantkowiak.jLife;
 
+/*
+ * @brief	LifeModel class
+ */
 public class LifeModel
 {
+	/*
+	 * @brief	2D array grid of booleans to keep track of live cells
+	 */
 	private boolean [] [] m_grid;
 	
+	/*
+	 * @brief	Default constructor.  Private, should not be used.
+	 */
 	private LifeModel()
 	{
 		m_grid = null;
 	}
 	
+	/*
+	 * @brief	Constructor
+	 * @param	width - the number of cells wide to simulate
+	 * @param	height - the number of cells tall to simulate
+	 */
 	public LifeModel(int width, int height)
 	{
 		m_grid = new boolean [width] [height];
@@ -21,28 +35,60 @@ public class LifeModel
 		randomizeGrid();
 	}
 	
+	/*
+	 * @brief	Copy constructor
+	 * @param	rhs - the object to copy
+	 */
 	public LifeModel(LifeModel rhs)
 	{
-		if (rhs != null && rhs.m_grid != null && rhs.m_grid[0] != null)
+		// If rhs is a valid object, do a deep copy of the 2D array
+		if (rhs.isValid())
 		{
 			m_grid = new boolean [rhs.m_grid.length] [rhs.m_grid[0].length];
 			
 			for (int i = 0 ; i < rhs.m_grid.length ; ++i)
 			{
-				if (rhs.m_grid[i] != null)
+				for (int j = 0 ; j < rhs.m_grid[i].length ; ++j)
 				{
-					for (int j = 0 ; j < rhs.m_grid[i].length ; ++j)
-					{
-						this.m_grid[i][j] = rhs.m_grid[i][j];
-					}
+					this.m_grid[i][j] = rhs.m_grid[i][j];
 				}
 			}
 		}
 	}
 	
+	/*
+	 * @brief	Return the number of cells wide
+	 * @return	int - the number of cells wide
+	 */
+	public int getWidth()
+	{
+		if (!isValid())
+			return 0;
+		
+		return m_grid.length;
+	}
+	
+	/*
+	 * @brief	Return the numbers of cells high
+	 * @return	int - the number of cells high
+	 */
+	public int getHeight()
+	{
+		if (!isValid())
+			return 0;
+		
+		return m_grid[0].length;
+	}
+	
+	/*
+	 * @brief	Return the state of the cell at a location
+	 * @param	i - the first array index location
+	 * @param	j - the second array index location
+	 * @return	boolean - true if the cell is alive
+	 */
 	public boolean getState(int i, int j)
 	{
-		if (m_grid != null && i < m_grid.length && m_grid[i] != null && j < m_grid[i].length)
+		if (isValid())
 		{
 			return m_grid[i][j];
 		}
@@ -50,14 +96,23 @@ public class LifeModel
 		return false;
 	}
 	
+	/*
+	 * @brief	Set the state of the cell at a given location
+	 * @param	i - the first array index location
+	 * @param	j - the second array index location
+	 * @param	state - the state to set the cell (alive=true)
+	 */
 	public void setState(int i, int j, boolean state)
 	{
-		if (m_grid != null && i < m_grid.length && m_grid[i] != null && j < m_grid[i].length)
+		if (isValid())
 		{
 			m_grid[i][j] = state;
 		}
 	}
 	
+	/*
+	 * @brief	Advance the Life game by one generation
+	 */
 	public void advanceGeneration()
 	{
 		LifeModel base = new LifeModel(this);
@@ -73,11 +128,18 @@ public class LifeModel
 		}
 	}
 	
+	/*
+	 * @(non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 * 
+	 * @brief	Return a string representation of this object
+	 * @return	String - the string representation of the object
+	 */
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder();
 		
-		if (m_grid != null && m_grid.length > 0 && m_grid[0] != null)
+		if (isValid())
 		{
 			for (int i = 0 ; i < m_grid.length ; ++i)
 			{
@@ -99,12 +161,36 @@ public class LifeModel
 		return sb.toString();
 	}
 	
+	/*
+	 * @brief	Determine if the internal data structure (grid) is valid
+	 * @return	boolean - true if the data is valid
+	 */
+	private boolean isValid()
+	{
+		if (m_grid == null)
+			return false;
+		
+		if (m_grid.length <= 0)
+			return false;
+		
+		if (m_grid[0] == null)
+			return false;
+		
+		if (m_grid[0].length <= 0)
+			return false;
+		
+		return true;
+	}
+	
+	/*
+	 * @brief	Get the state of the cell at (i, j) for the next generation
+	 * @param	i - the first array index location
+	 * @param 	j - the second array index location
+	 * @return	boolean - true if the cell is alive in the next generation
+	 */
 	private boolean getNextGenerationState(int i, int j)
 	{
-		if (		m_grid == null
-				||	m_grid.length <= 0
-				||	m_grid[0] == null
-				||	m_grid[0].length <= 0)
+		if (!isValid())
 		{
 			return false;
 		}
@@ -139,6 +225,11 @@ public class LifeModel
 		return false;
 	}
 	
+	/*
+	 * @brief	Normalize an 'i' coordinate.  Ensure it is not negative and does not exceed the width
+	 * @param	i - the 'i' coordinate of the 2D array
+	 * @return	int - the normalized value
+	 */
 	private int normalizeI(int i)
 	{
 		if (i < 0)
@@ -154,6 +245,11 @@ public class LifeModel
 		return i;
 	}
 	
+	/*
+	 * @brief	Normalize a 'j' coordinate.  Ensure it is not negative and does not exceed the height
+	 * @param	j - the 'j' coordinate of the 2D array
+	 * @return	int - the normalized value
+	 */
 	private int normalizeJ(int j)
 	{
 		if (j < 0)
@@ -169,39 +265,35 @@ public class LifeModel
 		return j;
 	}
 	
+	/*
+	 * @brief	Zero out the grid, make all cells dead.
+	 */
 	public void zeroGrid()
 	{
-		if (null != m_grid)
+		if (isValid())
 		{
 			for (int i = 0 ; i < m_grid.length ; ++i)
 			{
-				if (m_grid[i] != null)
+				for (int j = 0 ; j < m_grid[i].length ; ++j)
 				{
-					for (int j = 0 ; j < m_grid[i].length ; ++j)
-					{
-						m_grid[i][j] = false;
-					}
+					m_grid[i][j] = false;
 				}
 			}
 		}
 	}
 	
+	/*
+	 * @brief	Randomize the grid.  Initialize each cell with the probability P(0.5) if the cell is alive.
+	 */
 	private void randomizeGrid()
 	{
-		if (null != m_grid)
+		for (int i = 0 ; i < m_grid.length ; ++i)
 		{
-			for (int i = 0 ; i < m_grid.length ; ++i)
+			for (int j = 0 ; j < m_grid[i].length ; ++j)
 			{
-				if (m_grid[i] != null)
-				{
-					for (int j = 0 ; j < m_grid[i].length ; ++j)
-					{
-						m_grid[i][j] = Math.random() >= 0.5f;
-					}
-				}
+				m_grid[i][j] = Math.random() >= 0.5f;
 			}
 		}
 	}
-	
 	
 }

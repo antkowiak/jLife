@@ -1,7 +1,7 @@
 /**
  * View class for the game of Life.
  * 
- * @author Ryan Antkowiak (antkowiak@gmail.com)
+ * @author Ryan Antkowiak 
  */
 package com.ryanantkowiak.jLife;
 

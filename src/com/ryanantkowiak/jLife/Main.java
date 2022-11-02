@@ -1,14 +1,14 @@
 /**
  * Program entry point for game of Life.
  * 
- * @author Ryan Antkowiak (antkowiak@gmail.com)
+ * @author Ryan Antkowiak 
  */
 package com.ryanantkowiak.jLife;
 
 import javax.swing.JFrame;
 
 /**
- * @author Ryan Antkowiak (antkowiak@gmail.com)
+ * @author Ryan Antkowiak 
  *
  * Main class for the java implementation of Life, with wrap-around logic.
  */
@@ -31,7 +31,7 @@ public class Main
 		LifeView lifeView = new LifeView(lifeModel);
 		
 		// Create the window for display
-		JFrame frame = new JFrame("jLife - by Ryan Antkowiak (antkowiak@gmail.com)");
+		JFrame frame = new JFrame("jLife - by Ryan Antkowiak");
 		frame.getContentPane().add(lifeView);
 		frame.getContentPane().setSize(lifeView.getSize());
 		frame.pack();
